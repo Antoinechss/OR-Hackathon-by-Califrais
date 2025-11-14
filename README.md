@@ -55,7 +55,7 @@ Uses:
 
 * early fuel-delta computing 
 
-**Output***
+**Output**
 
 Produces routesX.csv files (KIRO-compatible format), one per instance.
 
