@@ -1,6 +1,9 @@
 <H1> KIRO 2025 – Route Optimization Solver </H1>
 A fast heuristic for time-windowed vehicle routing with heterogeneous fleet & time-dependent travel times.
 
+<img width="991" height="623" alt="Screenshot 2025-11-14 at 12 44 44" src="https://github.com/user-attachments/assets/2be941b2-663f-40b0-97e5-141f0f64dfab" />
+
+
 This repository contains my solution for the KIRO 2025 Operations Research Hackathon organized by Califrais & CERMICS.
 The goal is to compute efficient delivery routes under real constraints: vehicle capacities, time windows, parking time, Fourier-based speed variations, fuel & rental costs, and an Euclidian radius penalty.
 
