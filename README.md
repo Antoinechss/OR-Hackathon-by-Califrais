@@ -1,75 +1,89 @@
-<H1> KIRO 2025 – Route Optimization Solver </H1>
-A fast heuristic for time-windowed vehicle routing with heterogeneous fleet & time-dependent travel times.
+<h1 align="center">KIRO 2025 – Route Optimization Solver</h1>
 
-<img width="991" height="623" alt="Screenshot 2025-11-14 at 12 44 44" src="https://github.com/user-attachments/assets/2be941b2-663f-40b0-97e5-141f0f64dfab" />
+<p align="center">
+  <em>
+    A fast heuristic solver for time-windowed vehicle routing with heterogeneous fleets and time-dependent travel times.
+  </em>
+</p>
 
+<p align="center">
+  <img width="900" alt="KIRO 2025 Solver Overview" src="https://github.com/user-attachments/assets/2be941b2-663f-40b0-97e5-141f0f64dfab" />
+</p>
 
-This repository contains my solution for the KIRO 2025 Operations Research Hackathon organized by Califrais & CERMICS.
-The goal is to compute efficient delivery routes under real constraints: vehicle capacities, time windows, parking time, Fourier-based speed variations, fuel & rental costs, and an Euclidian radius penalty.
+---
 
-Solver is fully hand-coded in Python and obtained a competitive score within the 10-minute runtime limit.
+## Overview
 
-**Problem Summary**
+This repository contains my solution to the <strong>KIRO 2025 Operations Research Hackathon</strong>, organized by <strong>Califrais</strong> and <strong>CERMICS</strong>.
 
-Each solution must assign every order to exactly one route while respecting:
+The objective is to compute efficient delivery routes under realistic operational constraints, including vehicle heterogeneity, time windows, parking delays, time-dependent travel speeds, and multiple cost components.
 
-* Vehicle capacity
+The solver is fully hand-coded in Python and achieved a competitive score within the 10-minute runtime constraint imposed by the competition.
 
-* Time windows (with waiting allowed)
+---
 
-* Time-dependent travel times
+## Problem Description
 
-* Start and end at the depot
+Each solution must assign every order to exactly one route while satisfying:
 
-* Heterogeneous vehicle families 1, 2 and 3
+- Vehicle capacity limits  
+- Time windows (waiting allowed)  
+- Time-dependent travel times  
+- Routes start and end at the depot  
+- Heterogeneous vehicle families (1, 2, and 3)  
 
-Objective: minimize **total cost = rental + fuel + clustering penalty**
+### Objective Function
 
-Distances are computed using Manhattan and Euclidean metrics.
-Travel times depend on the time of day via a 4-term Fourier series.
+Minimize:
 
-**Approach**
+<strong>Total cost = rental cost + fuel cost + clustering (Euclidean radius) penalty</strong>
 
-1. Preprocessing
+Additional details:
 
-Vectorized computation of Manhattan & Euclidean distance matrices from spherical Lat and Long coordinates
+- Distances are computed using Manhattan and Euclidean metrics  
+- Travel times depend on the time of day via a 4-term Fourier series  
 
-Caching of travel times (travel_cache) to save computational speed 
+---
 
-2. Greedy Initial Solution
+## Methodology
 
-Build routes one by one
+### 1. Preprocessing
 
-Always insert the nearest feasible next order
+- Vectorized computation of Manhattan and Euclidean distance matrices  
+- Distance computation from spherical latitude/longitude coordinates  
+- Caching of time-dependent travel times (<code>travel_cache</code>) to reduce runtime  
 
-Try all vehicle families and keep the best solution
+### 2. Greedy Initial Solution
 
-3. Local Search optimization (Relocation)
+- Construct routes iteratively  
+- Insert the nearest feasible next order  
+- Evaluate all vehicle families and keep the best feasible choice  
 
-Remove a node from a route
+### 3. Local Search Optimization (Relocation)
 
-Try inserting it into another route to get a better solution. Apply first improving move until no improvements remain
+Relocation-based local search is applied until no improvement remains:
 
-Uses:
+- Remove a node from its current route  
+- Attempt reinsertion into another route  
+- Apply a first-improving move strategy  
 
-* incremental arrival-time propagation
+Implementation optimizations:
 
-* nearest-neighbor insertion candidates
+- Incremental arrival-time propagation  
+- Nearest-neighbor insertion candidates  
+- Early computation of fuel cost deltas  
 
-* early fuel-delta computing 
+---
 
-**Output**
+## Output
 
-Produces routesX.csv files (KIRO-compatible format), one per instance.
+- Generates <code>routesX.csv</code> files (KIRO-compatible format)  
+- One solution file per instance  
+- Files are written automatically to the current directory  
 
-**How to Run ?**
+---
 
-Install dependencies
-<pip install pandas numpy>
+## Acknowledgements
 
-Run the solver
-<python kiro.py>
-
-CSV solutions will be generated automatically inside the current folder
-
-Notes : Further Improvements such as 2-opt, cross-exchange, or metaheuristics could further improve solution quality.
+KIRO 2025 Operations Research Hackathon
+Organized by Califrais and CERMICS
